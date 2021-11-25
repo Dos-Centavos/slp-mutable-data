@@ -1,6 +1,5 @@
 /*
-  An npm JavaScript library for front end web apps. Implements a minimal
-  Bitcoin Cash wallet.
+  An npm JavaScript library for integrating mutable data with SLP tokens.
 */
 
 /* eslint-disable no-async-promise-executor */
