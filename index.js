@@ -7,20 +7,33 @@
 
 'use strict'
 
+// Public npm libraries
 const BCHJS = require('@psf/bch-js')
 
-const Util = require('./lib/util')
-const util = new Util()
+// Local libraries
+const Create = require('./lib/create')
+const Get = require('./lib/get')
+const Data = require('./lib/data')
 
-let _this // local global for 'this'.
+class SlpMutableData {
+  constructor (localConfig = {}) {
+    // Dependency Injection
+    this.web3Storage = localConfig.web3Storage
+    if (!this.web3Storage) {
+      throw new Error(
+        'Must pass instance of web3.storage library when instantiating slp-mutable-data library.'
+      )
+    }
 
-class BoilplateLib {
-  constructor () {
-    _this = this
+    // Encapsulate dependencies
+    this.bchjs = new BCHJS()
+    localConfig.bchjs = this.bchjs
 
-    _this.bchjs = new BCHJS()
-    _this.util = util
+    // Instantiate the support libraries.
+    this.create = new Create(localConfig)
+    this.get = new Get(localConfig)
+    this.data = new Data(localConfig)
   }
 }
 
-module.exports = BoilplateLib
+module.exports = SlpMutableData
