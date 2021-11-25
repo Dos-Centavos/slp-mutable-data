@@ -6,7 +6,14 @@ This library implements this [PS002 specification for mutable data](https://gith
 
 ## Sponsor
 
-Development and maintenance of this library is sponsored by [Launchpad IP](https://launchpadip.com), and managed by the [Permissionless Software Foundation](https://psfoundation.cash).
+Development and maintenance of this library is sponsored by [Launchpad IP](https://launchpadip.com). If you need protection for your intellectual property, contact Launchpad.
+
+Maintenance and development is managed by the [Permissionless Software Foundation](https://psfoundation.cash). If this library provides value to you, please consider making a donation to support the PSF developers:
+
+<div><center>
+<img src="./psf-burn-qr.png" />
+<p>bitcoincash:qqsrke9lh257tqen99dkyy2emh4uty0vky9y0z0lsr</p>
+</center></div>
 
 # Licence
 
