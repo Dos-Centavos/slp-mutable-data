@@ -7,20 +7,20 @@
 
 'use strict'
 
+// Public npm libraries
 const BCHJS = require('@psf/bch-js')
 
-const Util = require('./lib/util')
-const util = new Util()
+// Local libraries
+const Create = require('./lib/create')
+const Get = require('./lib/get')
 
-let _this // local global for 'this'.
-
-class BoilplateLib {
+class SlpMutableData {
   constructor () {
-    _this = this
-
-    _this.bchjs = new BCHJS()
-    _this.util = util
+    // Encapsulate dependencies
+    this.bchjs = new BCHJS()
+    this.create = new Create({ bchjs: this.bchjs })
+    this.get = new Get({ bchjs: this.bchjs })
   }
 }
 
-module.exports = BoilplateLib
+module.exports = SlpMutableData
