@@ -15,12 +15,16 @@ const mspWif = 'L1uQVoF9PQ42SiPUp4oYcg887CEKZG1VaShc73sEtkLwZycwmefB'
 
 const web3Storage = require('web3.storage')
 
-const SlpMutableData = require('../index')
+const { SlpMutableData, FilecoinData } = require('../index')
 // const SlpMutableData = require('slp-mutable-data')
 
 async function updateMutableData () {
   try {
-    const slpMutableData = new SlpMutableData({ web3Storage })
+    const slpMutableData = new SlpMutableData()
+    const filecoinData = new FilecoinData({
+      web3Storage,
+      bchjs: slpMutableData.bchjs
+    })
 
     const mutableData = {
       tokenIcon:
@@ -29,13 +33,10 @@ async function updateMutableData () {
         'Mutable data managed with npm package: https://www.npmjs.com/package/slp-mutable-data'
     }
 
-    const cid = await slpMutableData.data.uploadToFilecoin(
-      mutableData,
-      apiToken
-    )
+    const cid = await filecoinData.uploadToFilecoin(mutableData, apiToken)
     console.log(`Filecoin & IPFS CID: ${cid}`)
 
-    const hex = await slpMutableData.data.writeCIDToOpReturn(cid, mspWif)
+    const hex = await filecoinData.writeCIDToOpReturn(cid, mspWif)
 
     // Broadcast transaction to the network
     const txid = await slpMutableData.bchjs.RawTransactions.sendRawTransaction(

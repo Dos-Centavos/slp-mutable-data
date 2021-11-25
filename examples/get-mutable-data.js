@@ -2,15 +2,14 @@
   An example for retrieving the mutable data associated with a token.
 */
 
-const SlpMutableData = require('../index')
-const web3Storage = require('web3.storage')
+const { SlpMutableData } = require('../index')
 
 const tokenId =
-  'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
+  '9a8101fac6db3c763060d26888299334aee3fc36559ebdeafb8dd034a7951502'
 
 async function getMutableData () {
   try {
-    const slpMutableData = new SlpMutableData({ web3Storage })
+    const slpMutableData = new SlpMutableData()
 
     const data = await slpMutableData.get.mutableData(tokenId)
 
