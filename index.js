@@ -17,7 +17,7 @@ const FilecoinData = require('./lib/data')
 class SlpMutableData {
   constructor (localConfig = {}) {
     // Encapsulate dependencies
-    this.bchjs = new BCHJS()
+    this.bchjs = new BCHJS(localConfig)
     localConfig.bchjs = this.bchjs
 
     // Instantiate the support libraries.
