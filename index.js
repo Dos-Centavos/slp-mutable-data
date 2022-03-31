@@ -23,6 +23,7 @@ class SlpMutableData {
     // Instantiate the support libraries.
     this.create = new Create(localConfig)
     this.get = new Get(localConfig)
+    this.data = new FilecoinData()
   }
 }
 
