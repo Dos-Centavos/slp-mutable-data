@@ -6,6 +6,8 @@ const { SlpMutableData } = require('../index')
 
 const tokenId =
 '80f1f5de765dc1a773c9e24167e3fe2599aec1bcbeb2c061eaafc63959690adc'
+// const tokenId =
+// '339938e6ccdb062dfd4242985fd7a4522e06f6cb90aaa6867b482bfcdf9a19ad'
 
 async function getMutableData () {
   try {
