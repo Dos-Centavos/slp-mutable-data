@@ -34,12 +34,11 @@
   },
   "repository": "Dos-Centavos/slp-mutable-data",
   "dependencies": {
-    "@psf/bch-js": "6.2.1",
-    "apidoc": "^0.50.5",
-    "axios": "0.25.0",
-    "web3.storage": "^3.5.7"
+    "axios": "0.25.0"
   },
   "devDependencies": {
+    "@psf/bch-js": "6.2.5",
+    "apidoc": "0.50.5",
     "browserify": "17.0.0",
     "chai": "4.2.0",
     "coveralls": "3.1.0",
@@ -56,7 +55,8 @@
     "semantic-release": "^19.0.2",
     "sinon": "9.2.2",
     "standard": "16.0.4",
-    "tinyify": "3.0.0"
+    "tinyify": "3.0.0",
+    "web3.storage": "4.0.0"
   },
   "release": {
     "publish": [

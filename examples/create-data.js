@@ -1,6 +1,13 @@
 /*
   An example for generating a JSON document, which is then uploaded to
   Filecoin. This returns the CID, which makes the JSON document immutible.
+
+  This example can be used to generate data for the token; both immutable and
+  mutable data. The difference between the two is that mutable data contains a
+  pointer that points to new uploads.
+
+  This example assumes you have an API key from web3.storage, which is accessed
+  through the FILECOIN_TOKEN environment variable.
 */
 
 const apiToken = process.env.FILECOIN_TOKEN
@@ -31,6 +38,7 @@ async function createImmutableData () {
 
     const cid = await filecoinData.uploadToFilecoin(immutableData, apiToken)
     console.log(`Filecoin & IPFS CID: ${cid}`)
+    console.log(`https://${cid}.ipfs.dweb.link/data.json`)
   } catch (err) {
     console.error(err)
   }

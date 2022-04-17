@@ -180,7 +180,7 @@ describe('#create.js', () => {
         await uut.createMutableTxid(WIF)
         assert.equal(true, false, 'unexpected result')
       } catch (err) {
-        assert.include(err.message, 'mspAddr must be a string')
+        assert.include(err.message, 'mda must be a string')
       }
     })
 
