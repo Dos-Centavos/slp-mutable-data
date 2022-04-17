@@ -15,8 +15,8 @@ const walletWif = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
 // mnemonic: sound cliff hand peace submit author weekend subject ugly spawn earn insect
 
 // 2) Key pair for controlling the mutable data.
-// const mspWif = 'L1uQVoF9PQ42SiPUp4oYcg887CEKZG1VaShc73sEtkLwZycwmefB'
-const mspAddr = 'bitcoincash:qpegq32ddlaj09grkkq7xsfyc5j8kfl3ygpj2zqmsv'
+// const mdaWif = 'L1uQVoF9PQ42SiPUp4oYcg887CEKZG1VaShc73sEtkLwZycwmefB'
+const mda = 'bitcoincash:qpegq32ddlaj09grkkq7xsfyc5j8kfl3ygpj2zqmsv'
 // mnemonic: kit educate flight trim toilet uphold diamond six angle electric share elbow
 
 const { SlpMutableData } = require('../index')
@@ -39,7 +39,7 @@ async function createToken () {
     const txid = await slpMutableData.create.createToken(
       walletWif,
       tokenData,
-      mspAddr
+      mda
     )
 
     console.log(`New token created with token ID: ${txid}`)
