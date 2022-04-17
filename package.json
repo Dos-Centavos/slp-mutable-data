@@ -34,10 +34,10 @@
   },
   "repository": "Dos-Centavos/slp-mutable-data",
   "dependencies": {
-    "@psf/bch-js": "6.2.1",
-    "apidoc": "^0.50.5",
+    "@psf/bch-js": "6.2.5",
+    "apidoc": "0.50.5",
     "axios": "0.25.0",
-    "web3.storage": "^3.5.7"
+    "web3.storage": "4.0.0"
   },
   "devDependencies": {
     "browserify": "17.0.0",
