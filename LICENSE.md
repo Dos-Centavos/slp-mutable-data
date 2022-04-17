@@ -1,4 +1,4 @@
-Copyright (c) 2021 Launchpad Intellectual Property, Inc.
+Copyright (c) 2022 Launchpad Intellectual Property, Inc.
 
 GNU General Public License
 

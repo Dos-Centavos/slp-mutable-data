@@ -9,10 +9,12 @@
   app for interacting with the newly created token.
 */
 
+// 1) Key pair for creating and holding the token.
 const walletWif = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
 // const walletAddr = 'bitcoincash:qqc3pqztxxcq7hr5g7f5us477rhxl96m65lp7cszfl'
 // mnemonic: sound cliff hand peace submit author weekend subject ugly spawn earn insect
 
+// 2) Key pair for controlling the mutable data.
 // const mspWif = 'L1uQVoF9PQ42SiPUp4oYcg887CEKZG1VaShc73sEtkLwZycwmefB'
 const mspAddr = 'bitcoincash:qpegq32ddlaj09grkkq7xsfyc5j8kfl3ygpj2zqmsv'
 // mnemonic: kit educate flight trim toilet uphold diamond six angle electric share elbow
@@ -28,7 +30,7 @@ async function createToken () {
     const tokenData = {
       name: 'Mutable Test 01',
       ticker: 'MT01',
-      documentUrl: 'https://FullStack.cash',
+      documentUrl: 'ipfs://bafybeidzfi3sictag4noy746gniyiwwcgio565xuzelmjfwxnga6qyiyai',
       decimals: 0,
       initialQty: 1,
       mintBatonVout: null
@@ -41,6 +43,7 @@ async function createToken () {
     )
 
     console.log(`New token created with token ID: ${txid}`)
+    console.log(`https://token.fullstack.cash/?tokenid=${txid}`)
   } catch (err) {
     console.error(err)
   }
