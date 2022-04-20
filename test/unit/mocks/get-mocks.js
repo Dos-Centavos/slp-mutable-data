@@ -1,8 +1,9 @@
 /*
-  This library contains mocking data for running unit tests on the psf-slp-indexer route.
+This library contains mocking data for running get library unit test.
 */
 
 'use strict'
+const mda = 'bitcoincash:qpegq32ddlaj09grkkq7xsfyc5j8kfl3ygpj2zqmsv'
 
 const tokenStats = {
   tokenData: {
@@ -29,7 +30,7 @@ const tokenStats = {
     ]
   }
 }
-
+// bchjs.Electrumx.txData() Mocks
 const txData = {
   txData: {
     txid: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
@@ -46,7 +47,6 @@ const txData = {
           hex: '47304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4412102791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851'
         },
         sequence: 4294967295,
-        address: 'bitcoincash:qpvsg9vl9a5mlf37a7n3yce6pktdctn73qwgaqm3wq',
         value: 0.00051303,
         tokenQty: 0,
         tokenQtyStr: '0',
@@ -120,14 +120,128 @@ const mutableData = {
 }
 
 const decodedOpReturn = JSON.stringify({
-  mda: 'bitcoincash:qrg77j4jf2pl7azgvzrz2z567ls464gkuuhplt30dp',
+  mda,
   cid: 'bafybeie6t5uyupddc7azms737xg4hxrj7i5t5ov3lb5g2qeehaujj6ak64'
 })
 
+// bchjs.RawTransactions.getTxData() Mocks
+const txDataWithMDA = {
+  txData: {
+    txid: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
+    hash: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
+    version: 2,
+    size: 339,
+    locktime: 0,
+    vin: [
+      {
+        txid: '8370db30d94761ab9a11b71ecd22541151bf6125c8c613f0f6fab8ab794565a7',
+        vout: 0,
+        scriptSig: {
+          asm: '304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4[ALL|FORKID] 02791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851',
+          hex: '47304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4412102791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851'
+        },
+        sequence: 4294967295,
+        address: mda,
+        value: 0.00051303,
+        tokenQty: 0,
+        tokenQtyStr: '0',
+        tokenId: null
+      }
+    ],
+    vout: [
+      {
+        value: 0,
+        n: 0,
+        scriptPubKey: {
+          asm: 'OP_RETURN 5262419 1 47454e45534953 54524f5554 54726f75742773207465737420746f6b656e 74726f757473626c6f672e636f6d 0 2 2 000000174876e800',
+          hex: '6a04534c500001010747454e455349530554524f55541254726f75742773207465737420746f6b656e0e74726f757473626c6f672e636f6d4c000102010208000000174876e800',
+          type: 'nulldata'
+        },
+        tokenQtyStr: '0',
+        tokenQty: 0
+      }
+    ],
+    hex: '0200000001a7654579abb8faf6f013c6c82561bf51115422cd1eb7119aab6147d930db7083000000006a47304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4412102791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851ffffffff040000000000000000476a04534c500001010747454e455349530554524f55541254726f75742773207465737420746f6b656e0e74726f757473626c6f672e636f6d4c000102010208000000174876e80022020000000000001976a914db4d39ceb7794ffe5d06855f249e1d3a7f1b024088ac22020000000000001976a914db4d39ceb7794ffe5d06855f249e1d3a7f1b024088accec20000000000001976a9145904159f2f69bfa63eefa712633a0d96dc2e7e8888ac00000000',
+    blockhash: '0000000000000000009f65225a3e12e23a7ea057c869047e0f36563a1f410267',
+    confirmations: 97398,
+    time: 1581773131,
+    blocktime: 1581773131,
+    blockheight: 622414,
+    isSlpTx: true,
+    tokenTxType: 'GENESIS',
+    tokenId: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
+    tokenType: 1,
+    tokenTicker: 'TROUT',
+    tokenName: "Trout's test token",
+    tokenDecimals: 2,
+    tokenUri: 'troutsblog.com',
+    tokenDocHash: '',
+    isValidSlp: true
+  }
+}
+
+// bchjs.RawTransactions.getTxData() Mocks
+const txDataWithoutMDA = {
+  txData: {
+    txid: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
+    hash: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
+    version: 2,
+    size: 339,
+    locktime: 0,
+    vin: [
+      {
+        txid: '8370db30d94761ab9a11b71ecd22541151bf6125c8c613f0f6fab8ab794565a7',
+        vout: 0,
+        scriptSig: {
+          asm: '304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4[ALL|FORKID] 02791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851',
+          hex: '47304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4412102791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851'
+        },
+        sequence: 4294967295,
+        address: 'bitcoincash:qpvsg9vl9a5mlf37a7n3yce6pktdctn73qwgaqm3wq',
+        value: 0.00051303,
+        tokenQty: 0,
+        tokenQtyStr: '0',
+        tokenId: null
+      }
+    ],
+    vout: [
+      {
+        value: 0,
+        n: 0,
+        scriptPubKey: {
+          asm: 'OP_RETURN 5262419 1 47454e45534953 54524f5554 54726f75742773207465737420746f6b656e 74726f757473626c6f672e636f6d 0 2 2 000000174876e800',
+          hex: '6a04534c500001010747454e455349530554524f55541254726f75742773207465737420746f6b656e0e74726f757473626c6f672e636f6d4c000102010208000000174876e800',
+          type: 'nulldata'
+        },
+        tokenQtyStr: '0',
+        tokenQty: 0
+      }
+    ],
+    hex: '0200000001a7654579abb8faf6f013c6c82561bf51115422cd1eb7119aab6147d930db7083000000006a47304402207e9631c53dfc8a9a793d1916469628c6b7c5780c01c2f676d51ef21b0ba4926f022069feb471ec869a49f8d108d0aaba04e7cd36e60a7500109d86537f55698930d4412102791b19a39165dbd83403d6df268d44fd621da30581b0b6e5cb15a7101ed58851ffffffff040000000000000000476a04534c500001010747454e455349530554524f55541254726f75742773207465737420746f6b656e0e74726f757473626c6f672e636f6d4c000102010208000000174876e80022020000000000001976a914db4d39ceb7794ffe5d06855f249e1d3a7f1b024088ac22020000000000001976a914db4d39ceb7794ffe5d06855f249e1d3a7f1b024088accec20000000000001976a9145904159f2f69bfa63eefa712633a0d96dc2e7e8888ac00000000',
+    blockhash: '0000000000000000009f65225a3e12e23a7ea057c869047e0f36563a1f410267',
+    confirmations: 97398,
+    time: 1581773131,
+    blocktime: 1581773131,
+    blockheight: 622414,
+    isSlpTx: true,
+    tokenTxType: 'GENESIS',
+    tokenId: 'a4fb5c2da1aa064e25018a43f9165040071d9e984ba190c222a7f59053af84b2',
+    tokenType: 1,
+    tokenTicker: 'TROUT',
+    tokenName: "Trout's test token",
+    tokenDecimals: 2,
+    tokenUri: 'troutsblog.com',
+    tokenDocHash: '',
+    isValidSlp: true
+  }
+}
 const cid = 'bafybeie6t5uyupddc7azms737xg4hxrj7i5t5ov3lb5g2qeehaujj6ak64'
+
 module.exports = {
   tokenStats,
   txData,
+  txDataWithMDA,
+  txDataWithoutMDA,
   transactions,
   immutableData,
   mutableData,
