@@ -2,9 +2,10 @@
   An example for generating a JSON document, which is then uploaded to
   Filecoin. This returns the CID, which makes the JSON document immutible.
 
-  This example can be used to generate data for the token; both immutable and
+  This example can be used to generate data for the token: both immutable and
   mutable data. The difference between the two is that mutable data contains a
-  pointer that points to new uploads.
+  pointer that points to new uploads, and can be changed over time. Immutable
+  data can never be changed once the token is created.
 
   This example assumes you have an API key from web3.storage, which is accessed
   through the FILECOIN_TOKEN environment variable.

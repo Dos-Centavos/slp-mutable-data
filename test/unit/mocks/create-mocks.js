@@ -19,7 +19,6 @@ const mockUtxos = [
         isValid: false,
         satoshis: 13902
       }
-
     ]
   }
 ]
@@ -65,7 +64,37 @@ const mockUtxos02 = {
       ],
       mintBatons: []
     },
-    nft: {}
+    nft: {
+      tokens: [
+        {
+          tx_hash: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          tx_pos: 1,
+          value: 546,
+          txid: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          vout: 1,
+          isSlp: true,
+          type: 'token',
+          qty: '1',
+          tokenId: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
+        }
+      ]
+    },
+    group: {
+      tokens: [
+        {
+          tx_hash: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          tx_pos: 1,
+          value: 546,
+          txid: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          vout: 1,
+          isSlp: true,
+          type: 'token',
+          qty: '1',
+          tokenId: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
+        }
+      ],
+      mintBatons: []
+    }
   },
   nullUtxos: []
 }
