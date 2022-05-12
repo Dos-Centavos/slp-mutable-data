@@ -205,7 +205,7 @@ describe('#create.js', () => {
   })
 
   describe('#buildTokenTx', () => {
-    it('should build token', async () => {
+    it('should build a fungible token by default', async () => {
       try {
         // Mock external dependencies.
         sandbox
@@ -281,6 +281,7 @@ describe('#create.js', () => {
         assert.equal(true, false, 'unexpected result')
       }
     })
+
     it('should build token with destination address', async () => {
       try {
         // Mock external dependencies.
@@ -300,6 +301,58 @@ describe('#create.js', () => {
           mintBatonVout: null
         }
         const result = await uut.buildTokenTx(WIF, slpData, destAddress)
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
+
+    it('should build a group token', async () => {
+      try {
+        // Mock external dependencies.
+        sandbox
+          .stub(uut.bchjs.Utxo, 'get')
+          .resolves(mockData.mockUtxos02)
+
+        const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
+        const destAddress = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+        const slpData = {
+          name: 'SLP Test Token',
+          ticker: 'SLPTEST',
+          documentUrl: 'https://FullStack.cash',
+          decimals: 0,
+          initialQty: 1,
+          documentHash: 'ec1d3c080759dfc7a5e29e5132230c2359aff2024d68ddf0ae1ba41c9e234831',
+          mintBatonVout: null
+        }
+        const result = await uut.buildTokenTx(WIF, slpData, destAddress, 'group')
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
+
+    it('should build an NFT', async () => {
+      try {
+        // Mock external dependencies.
+        sandbox
+          .stub(uut.bchjs.Utxo, 'get')
+          .resolves(mockData.mockUtxos02)
+
+        const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
+        const destAddress = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+        const slpData = {
+          name: 'SLP Test Token',
+          ticker: 'SLPTEST',
+          documentUrl: 'https://FullStack.cash',
+          decimals: 0,
+          initialQty: 1,
+          documentHash: 'ec1d3c080759dfc7a5e29e5132230c2359aff2024d68ddf0ae1ba41c9e234831',
+          mintBatonVout: null
+        }
+        const result = await uut.buildTokenTx(WIF, slpData, destAddress, 'nft')
         assert.isString(result)
       } catch (err) {
         console.log(err)
