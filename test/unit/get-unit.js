@@ -136,8 +136,8 @@ describe('#get.js', () => {
       // Mock external dependencies.
       sandbox.stub(uut, 'decodeOpReturn')
         .onFirstCall().resolves('{"mda":"bitcoincash:qplnej5md740lkl6qt0qf0g2mkv7dwfscskjask5s8"}')
-        .onSecondCall().resolves('{ "cid": "ipfs://bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4" }') // data to force an error while parsing the JSON
-        // .onThirdCall().resolves({ cid: 'ipfs://bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4' })
+        .onSecondCall().resolves('abc') // data to force an error while parsing the JSON. Increases code coverage.
+        .onThirdCall().resolves('{ "cid": "ipfs://bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4" }')
         // .onCall(4).resolves('{"cid":"ipfs://bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4"}')
       sandbox
         .stub(uut.wallet, 'getTransactions')
