@@ -7,17 +7,17 @@ This library implements this [PS002 specification for token mutable data](https:
 ## Installation
 Here are different ways to consume this library in your app, depending on the environment you are using.
 
-### HTML Scripts
+### Browser
 `<script src="https://unpkg.com/slp-mutable-data"></script>`
 
 ### Node.js
 `npm install --save slp-mutable-data`
 
 ```javascript
-// module import
-import SlpMutableData from 'slp-mutable-data'
+// ESM import
+import SlpMutableData from 'slp-mutable-data/index.js'
 
-// nodejs modules
+// CommonJS require
 const SlpMutableData = require('slp-mutable-data/index')
 ```
 
