@@ -9,7 +9,8 @@
 // Local libraries
 const Create = require('./lib/create')
 const Get = require('./lib/get')
-const FilecoinData = require('./lib/data')
+const FilecoinData = require('./lib/filecoin-data')
+const Data = require('./lib/data')
 
 class SlpMutableData {
   constructor (localConfig = {}) {
@@ -24,6 +25,7 @@ class SlpMutableData {
     // Instantiate the support libraries.
     this.create = new Create(localConfig)
     this.get = new Get(localConfig)
+    this.data = new Data(localConfig)
   }
 }
 

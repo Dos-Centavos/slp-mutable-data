@@ -3,22 +3,19 @@ Unit tests for the data.js  library.
 */
 
 // npm libraries
-const chai = require('chai')
+const assert = require('chai').assert
 const sinon = require('sinon')
-const BCHJS = require('@psf/bch-js')
-const web3Storage = require('web3.storage')
-
+const BchWallet = require('minimal-slp-wallet/index')
 const cloneDeep = require('lodash.clonedeep')
-
-// Locally global variables.
-const assert = chai.assert
 
 // Mocking data libraries.
 const mockDataLib = require('./mocks/data-mocks')
 
+const wallet = new BchWallet()
+
 // Unit under test
-const FilecoinData = require('../../lib/data')
-const uut = new FilecoinData({ bchjs: new BCHJS(), web3Storage })
+const Data = require('../../lib/data')
+const uut = new Data({ wallet })
 
 describe('#data.js', () => {
   let sandbox
@@ -30,7 +27,6 @@ describe('#data.js', () => {
 
     // Clone the mock data.
     mockData = cloneDeep(mockDataLib)
-    uut.Web3Storage = mockData.Web3StorageMock
   })
 
   afterEach(() => sandbox.restore())
@@ -39,71 +35,31 @@ describe('#data.js', () => {
     it('should instantiate the class', async () => {
       try {
         // Mock external dependencies.
-        const _uut = new FilecoinData({ bchjs: new BCHJS(), web3Storage })
+        const _uut = new Data({ wallet })
         assert.exists(_uut)
       } catch (err) {
         assert.equal(true, false, 'unexpected result')
       }
     })
 
-    it('should throw an error if bch-js is not provided', async () => {
+    it('should throw an error if wallet is not provided', async () => {
       try {
         // Mock external dependencies.
-        const _uut = new FilecoinData()
+        const _uut = new Data()
         console.log(_uut)
+
         assert.equal(true, false, 'unexpected result')
       } catch (err) {
-        assert.include(err.message, 'bch-js instance required')
-      }
-    })
-    it('should throw an error if web3Storage is not provided', async () => {
-      try {
-        // Mock external dependencies.
-        const _uut = new FilecoinData({ bchjs: new BCHJS() })
-        console.log(_uut)
-        assert.equal(true, false, 'unexpected result')
-      } catch (err) {
-        assert.include(err.message, 'Must pass instance of web3.storage library')
+        assert.include(err.message, 'Instance of minimal-slp-wallet must be passed as wallet when instantiating this library.')
       }
     })
   })
-  describe('#uploadToFilecoin', () => {
-    it('should return cid', async () => {
-      const apiKey = 'apiKey'
-      const data = { data: 'data' }
-      const result = await uut.uploadToFilecoin(data, apiKey)
-      assert.isString(result)
-    })
-    it('should throw an error if apiKey is not provided', async () => {
-      try {
-        const data = { data: 'data' }
-        await uut.uploadToFilecoin(data)
-        assert.equal(true, false, 'unexpected result')
-      } catch (err) {
-        assert.include(err.message, 'apiKey needs to contain the API key from web3.storage.')
-      }
-    })
-  })
-  describe('#makeFileObjects', () => {
-    it('should return files array', async () => {
-      const data = { data: 'data' }
-      const result = uut.makeFileObjects(data)
-      assert.isArray(result)
-    })
-    it('should handle error', async () => {
-      try {
-        await uut.makeFileObjects()
-        assert.equal(true, false, 'unexpected result')
-      } catch (err) {
-        assert.include(err.message, 'argument must be of type string or an instance of Buffer')
-      }
-    })
-  })
+
   describe('#writeCIDToOpReturn', () => {
     it('should build transaction', async () => {
       // Mock external dependencies.
       sandbox
-        .stub(uut.bchjs.Utxo, 'get')
+        .stub(uut.wallet, 'getUtxos')
         .resolves(mockData.mockUtxos02)
 
       const cid = mockData.cid
@@ -111,6 +67,7 @@ describe('#data.js', () => {
       const result = await uut.writeCIDToOpReturn(cid, WIF)
       assert.isString(result)
     })
+
     it('should throw an error if wif is not provided', async () => {
       try {
         await uut.writeCIDToOpReturn()
@@ -119,6 +76,7 @@ describe('#data.js', () => {
         assert.include(err.message, 'wif private key required')
       }
     })
+
     it('should throw an error if cid is not provided', async () => {
       try {
         const WIF = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
@@ -128,11 +86,12 @@ describe('#data.js', () => {
         assert.include(err.message, 'CID of IPFS or Filecoin data required')
       }
     })
+
     it('should throw an error if there are not BCH UTXOs to pay for transaction', async () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos)
 
         const cid = mockData.cid
