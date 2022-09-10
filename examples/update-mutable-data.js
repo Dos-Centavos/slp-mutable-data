@@ -1,4 +1,8 @@
 /*
+  9/10/22 CT: This example is no longer valid. It needs to be refactored to
+  reflect that the original filecoin-data.js lib was broken up into two
+  libraries (filecoin-data.js and data.js).
+
   An example for updating the mutable data associated with a token.
 
   This follows section 6 of PS002 specification:
