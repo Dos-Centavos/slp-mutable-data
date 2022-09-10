@@ -8,7 +8,6 @@ const sinon = require('sinon')
 const BchWallet = require('minimal-slp-wallet/index.js')
 const cloneDeep = require('lodash.clonedeep')
 
-// Locally global variables.
 const wallet = new BchWallet()
 
 // Mocking data libraries.
