@@ -19,11 +19,16 @@ const walletWif = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
 const mda = 'bitcoincash:qpegq32ddlaj09grkkq7xsfyc5j8kfl3ygpj2zqmsv'
 // mnemonic: kit educate flight trim toilet uphold diamond six angle electric share elbow
 
+const BchWallet = require('minimal-slp-wallet/index.js')
 const { SlpMutableData } = require('../index')
 // const SlpMutableData = require('slp-mutable-data')
 
 async function createToken () {
-  const slpMutableData = new SlpMutableData()
+  const wallet = new BchWallet(walletWif, { interface: 'consumer-api' })
+  await wallet.walletInfoPromise
+  await wallet.initialize()
+
+  const slpMutableData = new SlpMutableData({ wallet })
 
   try {
     // Create a 'simple' NFT with a single, undivisiable token and no minting baton.

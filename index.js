@@ -4,10 +4,7 @@
 
 /* eslint-disable no-async-promise-executor */
 
-'use strict'
-
 // Public npm libraries
-const BCHJS = require('@psf/bch-js')
 
 // Local libraries
 const Create = require('./lib/create')
@@ -16,9 +13,13 @@ const FilecoinData = require('./lib/data')
 
 class SlpMutableData {
   constructor (localConfig = {}) {
-    // Encapsulate dependencies
-    this.bchjs = new BCHJS(localConfig)
-    localConfig.bchjs = this.bchjs
+    // Dependency injection
+    this.wallet = localConfig.wallet
+    if (!this.wallet) {
+      throw new Error(
+        'Instance of minimal-slp-wallet must be passed as wallet when instantiating this library.'
+      )
+    }
 
     // Instantiate the support libraries.
     this.create = new Create(localConfig)

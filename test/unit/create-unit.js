@@ -3,21 +3,20 @@ Unit tests for the create.js  library.
 */
 
 // npm libraries
-const chai = require('chai')
+const assert = require('chai').assert
 const sinon = require('sinon')
-const BCHJS = require('@psf/bch-js')
-
+const BchWallet = require('minimal-slp-wallet/index.js')
 const cloneDeep = require('lodash.clonedeep')
 
 // Locally global variables.
-const assert = chai.assert
+const wallet = new BchWallet()
 
 // Mocking data libraries.
 const mockDataLib = require('./mocks/create-mocks')
 
 // Unit under test
 const CreateLib = require('../../lib/create')
-const uut = new CreateLib({ bchjs: new BCHJS() })
+const uut = new CreateLib({ wallet })
 
 describe('#create.js', () => {
   let sandbox
@@ -37,21 +36,21 @@ describe('#create.js', () => {
     it('should instantiate the class', async () => {
       try {
         // Mock external dependencies.
-        const _uut = new CreateLib({ bchjs: new BCHJS() })
+        const _uut = new CreateLib({ wallet })
         assert.exists(_uut)
       } catch (err) {
         assert.equal(true, false, 'unexpected result')
       }
     })
 
-    it('should throw an error if bch-js is not provided', async () => {
+    it('should throw an error if wallet is not provided', async () => {
       try {
         // Mock external dependencies.
         const _uut = new CreateLib()
         console.log(_uut)
         assert.equal(true, false, 'unexpected result')
       } catch (err) {
-        assert.include(err.message, 'bch-js instance required')
+        assert.include(err.message, 'Instance of minimal-slp-wallet must be passed as wallet when instantiating get.js library.')
       }
     })
   })
@@ -61,11 +60,10 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
-
         sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
+          .stub(uut.wallet.ar, 'sendTx')
           .resolves(mockData.mockTxId)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -80,83 +78,15 @@ describe('#create.js', () => {
       }
     })
 
-    it('should create token with mint baton', async () => {
-      try {
-        // Mock external dependencies.
-        sandbox
-          .stub(uut.bchjs.Utxo, 'get')
-          .resolves(mockData.mockUtxos02)
-
-        sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
-          .resolves(mockData.mockTxId)
-
-        sandbox.stub(uut.bchjs.Util, 'sleep').resolves()
-
-        const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
-        const mspAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
-
-        const slpData = {
-          name: 'SLP Test Token',
-          ticker: 'SLPTEST',
-          documentUrl: 'https://FullStack.cash',
-          decimals: 0,
-          initialQty: 1,
-          documentHash: 'ec1d3c080759dfc7a5e29e5132230c2359aff2024d68ddf0ae1ba41c9e234831',
-          mintBatonVout: 2
-        }
-        const result = await uut.createToken(WIF, slpData, mspAddr)
-        assert.isString(result)
-      } catch (err) {
-        console.log(err)
-        assert.equal(true, false, 'unexpected result')
-      }
-    })
-
-    it('should create token with destination address', async () => {
-      try {
-        // Mock external dependencies.
-        sandbox
-          .stub(uut.bchjs.Utxo, 'get')
-          .resolves(mockData.mockUtxos02)
-
-        sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
-          .resolves(mockData.mockTxId)
-
-        sandbox.stub(uut.bchjs.Util, 'sleep').resolves()
-
-        const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
-        const mspAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
-        const destAddress = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
-
-        const slpData = {
-          name: 'SLP Test Token',
-          ticker: 'SLPTEST',
-          documentUrl: 'https://FullStack.cash',
-          decimals: 0,
-          initialQty: 1,
-          documentHash: 'ec1d3c080759dfc7a5e29e5132230c2359aff2024d68ddf0ae1ba41c9e234831',
-          mintBatonVout: null
-        }
-        const result = await uut.createToken(WIF, slpData, mspAddr, destAddress)
-        assert.isString(result)
-      } catch (err) {
-        console.log(err)
-        assert.equal(true, false, 'unexpected result')
-      }
-    })
-
     it('should handle errors', async () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
-
         sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
-          .throws(new Error('Test Error'))
+          .stub(uut.wallet.ar, 'sendTx')
+          .rejects(new Error('Test Error'))
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
         const mspAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
@@ -193,7 +123,7 @@ describe('#create.js', () => {
         // Mock external dependencies.
         mockData.mockUtxos.bchUtxos = []
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -206,6 +136,27 @@ describe('#create.js', () => {
         assert.include(err.message, 'No BCH UTXOs found in wallet')
       }
     })
+
+    it('should create mutable transaction id if fetch utxos is not array type', async () => {
+      try {
+        // Mock external dependencies.
+        sandbox
+          .stub(uut.wallet, 'getUtxos')
+          .resolves(mockData.mockUtxos[0])
+
+        sandbox
+          .stub(uut.wallet.ar, 'sendTx')
+          .resolves(mockData.mockTxId)
+
+        const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
+        const mspAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+        const result = await uut.createMutableTxid(WIF, mspAddr)
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
   })
 
   describe('#buildTokenTx', () => {
@@ -213,7 +164,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -240,7 +191,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos[0])
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -265,7 +216,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -290,7 +241,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -316,7 +267,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -342,7 +293,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -368,7 +319,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .throws(new Error('Test Error'))
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -416,7 +367,7 @@ describe('#create.js', () => {
         // Mock external dependencies.
         mockData.mockUtxos.bchUtxos = []
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -446,7 +397,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -475,7 +426,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -504,7 +455,7 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .throws(new Error('Test Error'))
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -566,7 +517,7 @@ describe('#create.js', () => {
         // Mock external dependencies.
         mockData.mockUtxos.bchUtxos = []
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -597,7 +548,7 @@ describe('#create.js', () => {
         // Mock external dependencies.
         mockData.mockUtxos02.slpUtxos.group.tokens[0].tokenId = 'fakeId'
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
@@ -628,11 +579,11 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
+          .stub(uut.wallet.ar, 'sendTx')
           .resolves(mockData.mockTxId)
 
         sandbox.stub(uut.bchjs.Util, 'sleep').resolves()
@@ -663,11 +614,11 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
+          .stub(uut.wallet.ar, 'sendTx')
           .resolves(mockData.mockTxId)
 
         sandbox.stub(uut.bchjs.Util, 'sleep').resolves()
@@ -696,20 +647,66 @@ describe('#create.js', () => {
       }
     })
 
-    it('should create mutable transaction id if fetch utxos is not array type', async () => {
+    it('should create token with mint baton', async () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
-          .resolves(mockData.mockUtxos[0])
-
+          .stub(uut.wallet, 'getUtxos')
+          .resolves(mockData.mockUtxos02)
         sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
+          .stub(uut.wallet.ar, 'sendTx')
           .resolves(mockData.mockTxId)
+
+        sandbox.stub(uut.bchjs.Util, 'sleep').resolves()
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
         const mspAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
-        const result = await uut.createMutableTxid(WIF, mspAddr)
+
+        const slpData = {
+          name: 'SLP Test Token',
+          ticker: 'SLPTEST',
+          documentUrl: 'https://FullStack.cash',
+          decimals: 0,
+          initialQty: 1,
+          documentHash: 'ec1d3c080759dfc7a5e29e5132230c2359aff2024d68ddf0ae1ba41c9e234831',
+          mintBatonVout: 2
+        }
+
+        const result = await uut.createToken(WIF, slpData, mspAddr)
+
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
+
+    it('should create token with destination address', async () => {
+      try {
+        // Mock external dependencies.
+        sandbox
+          .stub(uut.wallet, 'getUtxos')
+          .resolves(mockData.mockUtxos02)
+        sandbox
+          .stub(uut.wallet.ar, 'sendTx')
+          .resolves(mockData.mockTxId)
+
+        sandbox.stub(uut.bchjs.Util, 'sleep').resolves()
+
+        const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
+        const mspAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+        const destAddress = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+
+        const slpData = {
+          name: 'SLP Test Token',
+          ticker: 'SLPTEST',
+          documentUrl: 'https://FullStack.cash',
+          decimals: 0,
+          initialQty: 1,
+          documentHash: 'ec1d3c080759dfc7a5e29e5132230c2359aff2024d68ddf0ae1ba41c9e234831',
+          mintBatonVout: null
+        }
+        const result = await uut.createToken(WIF, slpData, mspAddr, destAddress)
         assert.isString(result)
       } catch (err) {
         console.log(err)
@@ -721,11 +718,11 @@ describe('#create.js', () => {
       try {
         // Mock external dependencies.
         sandbox
-          .stub(uut.bchjs.Utxo, 'get')
+          .stub(uut.wallet, 'getUtxos')
           .resolves(mockData.mockUtxos02)
 
         sandbox
-          .stub(uut.bchjs.RawTransactions, 'sendRawTransaction')
+          .stub(uut.wallet.ar, 'sendTx')
           .throws(new Error('Test Error'))
 
         const WIF = 'KxseNvKfKdMRgrMuWS5SZWHs8pjev6qJ29z9k7i5zqUDbESvxdnu'
