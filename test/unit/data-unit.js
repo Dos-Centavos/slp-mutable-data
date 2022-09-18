@@ -63,31 +63,20 @@ describe('#data.js', () => {
         .resolves(mockData.mockUtxos02)
 
       const cid = mockData.cid
-      const WIF = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
-      const result = await uut.writeCIDToOpReturn(cid, WIF)
+      const result = await uut.writeCIDToOpReturn(cid)
       assert.isString(result)
-    })
-
-    it('should throw an error if wif is not provided', async () => {
-      try {
-        await uut.writeCIDToOpReturn()
-        assert.equal(true, false, 'unexpected result')
-      } catch (err) {
-        assert.include(err.message, 'wif private key required')
-      }
     })
 
     it('should throw an error if cid is not provided', async () => {
       try {
-        const WIF = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
-        await uut.writeCIDToOpReturn(null, WIF)
+        await uut.writeCIDToOpReturn(null)
         assert.equal(true, false, 'unexpected result')
       } catch (err) {
         assert.include(err.message, 'CID of IPFS or Filecoin data required')
       }
     })
 
-    it('should throw an error if there are not BCH UTXOs to pay for transaction', async () => {
+    it('should throw an error if there are no BCH UTXOs to pay for transaction', async () => {
       try {
         // Mock external dependencies.
         sandbox
@@ -95,9 +84,8 @@ describe('#data.js', () => {
           .resolves(mockData.mockUtxos)
 
         const cid = mockData.cid
-        const WIF = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
 
-        await uut.writeCIDToOpReturn(cid, WIF)
+        await uut.writeCIDToOpReturn(cid)
 
         assert.fail('Unexpected code path')
       } catch (err) {
