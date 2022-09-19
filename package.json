@@ -34,6 +34,7 @@
   },
   "repository": "Dos-Centavos/slp-mutable-data",
   "dependencies": {
+    "@chris.troutner/retry-queue": "/home/trout/work/personal/retry-queue",
     "axios": "0.27.2",
     "p2wdb": "2.2.4"
   },
