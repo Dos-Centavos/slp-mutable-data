@@ -159,20 +159,20 @@ describe('#data.js', () => {
     })
   })
 
-  describe('#loadRetryQueueLib', () => {
-    it('should load the retry-queue library', async () => {
-      await uut.loadRetryQueueLib()
-      // console.log(uut.retryQueue)
-
-      assert.equal(uut.retryQueue.attempts, 3)
-    })
-  })
+  // describe('#loadRetryQueueLib', () => {
+  //   it('should load the retry-queue library', async () => {
+  //     await uut.loadRetryQueueLib()
+  //     // console.log(uut.retryQueue)
+  //
+  //     assert.equal(uut.retryQueue.attempts, 3)
+  //   })
+  // })
 
   describe('#createTokenData', () => {
     it('should create token data and return the CID', async () => {
       // Mock dependencies and force desired code path
       uut.retryQueue = { addToQueue: async () => {} }
-      sandbox.stub(uut, 'loadRetryQueueLib').resolves()
+      // sandbox.stub(uut, 'loadRetryQueueLib').resolves()
       sandbox.stub(uut.retryQueue, 'addToQueue')
         .onCall(0).resolves('fake-zcid')
         .onCall(1).resolves({ ipfsCid: 'fake-cid', p2wdbPinCid: 'fake-zcid2' })
@@ -188,7 +188,7 @@ describe('#data.js', () => {
 
     it('should catch random errors and throw them', async () => {
       // Mock dependencies and force desired code path
-      sandbox.stub(uut, 'loadRetryQueueLib').rejects(new Error('test error'))
+      sandbox.stub(uut.retryQueue, 'addToQueue').rejects(new Error('test error'))
 
       try {
         await uut.createTokenData()
