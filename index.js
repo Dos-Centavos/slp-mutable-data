@@ -4,8 +4,6 @@
 
 /* eslint-disable no-async-promise-executor */
 
-// Public npm libraries
-
 // Local libraries
 const Create = require('./lib/create')
 const Get = require('./lib/get')
