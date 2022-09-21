@@ -1,5 +1,6 @@
 /*
   An npm JavaScript library for integrating mutable data with SLP tokens.
+
 */
 
 /* eslint-disable no-async-promise-executor */
