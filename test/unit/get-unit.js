@@ -52,6 +52,24 @@ describe('#get.js', () => {
         assert.include(err.message, 'Instance of minimal-slp-wallet must be passed as wallet when instantiating get.js library.')
       }
     })
+
+    it('should override default IPFS gateway', async () => {
+      try {
+        const options = {
+          wallet,
+          cidUrlType: 2,
+          ipfsGatewayUrl: 'test.com'
+        }
+
+        // Mock external dependencies.
+        const _uut = new GetLib(options)
+
+        assert.equal(_uut.cidUrlType, 2)
+        assert.equal(_uut.ipfsGatewayUrl, 'test.com')
+      } catch (err) {
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
   })
 
   describe('#getCidData', () => {
@@ -72,6 +90,23 @@ describe('#get.js', () => {
 
       const cid = 'bafybeie6t5uyupddc7azms737xg4hxrj7i5t5ov3lb5g2qeehaujj6ak64'
       const result = await uut.getCidData(cid)
+      // console.log('result: ', result)
+
+      assert.isObject(result)
+    })
+
+    it('should get data from CID URL Type 2', async () => {
+      sandbox
+        .stub(uut.axios, 'get')
+        .resolves({ data: mockData.immutableData })
+
+      // Force desired code path
+      uut.cidUrlType = 2
+      uut.ipfsGatewayUrl = 'test.com'
+
+      const cid = 'bafybeie6t5uyupddc7azms737xg4hxrj7i5t5ov3lb5g2qeehaujj6ak64'
+      const result = await uut.getCidData(cid)
+      // console.log('result: ', result)
 
       assert.isObject(result)
     })
