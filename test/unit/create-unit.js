@@ -5,7 +5,7 @@ Unit tests for the create.js  library.
 // npm libraries
 const assert = require('chai').assert
 const sinon = require('sinon')
-const BchWallet = require('minimal-slp-wallet/index.js')
+const BchWallet = require('minimal-slp-wallet')
 const cloneDeep = require('lodash.clonedeep')
 
 const wallet = new BchWallet()
