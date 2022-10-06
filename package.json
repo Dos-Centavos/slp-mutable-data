@@ -2,7 +2,7 @@
   "name": "slp-mutable-data",
   "version": "2.0.0",
   "description": "A JavaScript npm library for retrieving mutable data associated with a SLP token.",
-  "main": "dist/slp-mutable-data.min.js",
+  "main": "./index.js",
   "scripts": {
     "start": "node index.js",
     "test": "npm run lint && TEST=unit nyc mocha --timeout 15000 test/unit/",
@@ -64,7 +64,17 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint && npm run build"
+    }
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/slp-mutable-data.min.js"
+      },
+      "require": {
+        "default": "./index.js"
+      }
     }
   }
 }
