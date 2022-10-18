@@ -235,6 +235,67 @@ describe('#get.js', () => {
       const result = await uut.mutableCid(tokenStats)
       assert.isFalse(result)
     })
+
+    it('should return older mutable cid for two entries in the same block', async () => {
+      // Mock external dependencies.
+      sandbox.stub(uut, 'decodeOpReturn')
+        .onCall(0).resolves('{"mda":"bitcoincash:qplnej5md740lkl6qt0qf0g2mkv7dwfscskjask5s8"}')
+        .onCall(1).resolves('{ "cid": "ipfs://bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrre", "ts": 1666106998771 }')
+        .onCall(2).resolves('{ "cid": "ipfs://bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf", "ts": 1666107111271 }')
+      sandbox
+        .stub(uut.wallet, 'getTransactions')
+        .resolves(mockData.transactions03)
+      sandbox
+        .stub(uut.wallet, 'getTxData')
+        .resolves(mockData.txData02)
+
+      const tokenStats = mockData.tokenStats.tokenData
+      const result = await uut.mutableCid(tokenStats)
+
+      assert.equal(result, 'bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf')
+    })
+
+    // Same test as above, but the entries are switched in the order they are processed.
+    it('should return older mutable cid if entries are switched in the same block', async () => {
+      // Mock external dependencies.
+      sandbox.stub(uut, 'decodeOpReturn')
+        .onCall(0).resolves('{"mda":"bitcoincash:qplnej5md740lkl6qt0qf0g2mkv7dwfscskjask5s8"}')
+        .onCall(1).resolves('{ "cid": "ipfs://bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf", "ts": 1666107111271 }')
+        .onCall(2).resolves('{ "cid": "ipfs://bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrre", "ts": 1666106998771 }')
+
+      sandbox
+        .stub(uut.wallet, 'getTransactions')
+        .resolves(mockData.transactions03)
+      sandbox
+        .stub(uut.wallet, 'getTxData')
+        .resolves(mockData.txData02)
+
+      const tokenStats = mockData.tokenStats.tokenData
+      const result = await uut.mutableCid(tokenStats)
+
+      assert.equal(result, 'bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf')
+    })
+
+    it('should stop searching for best entry if block height is less', async () => {
+      // Mock external dependencies.
+      sandbox.stub(uut, 'decodeOpReturn')
+        .onCall(0).resolves('{"mda":"bitcoincash:qplnej5md740lkl6qt0qf0g2mkv7dwfscskjask5s8"}')
+        .onCall(1).resolves('{ "cid": "ipfs://bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf", "ts": 1666107111271 }')
+        .onCall(2).resolves('{ "cid": "ipfs://bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrre", "ts": 1666106998771 }')
+
+      mockData.transactions03[1].height = 762680
+      sandbox
+        .stub(uut.wallet, 'getTransactions')
+        .resolves(mockData.transactions03)
+      sandbox
+        .stub(uut.wallet, 'getTxData')
+        .resolves(mockData.txData02)
+
+      const tokenStats = mockData.tokenStats.tokenData
+      const result = await uut.mutableCid(tokenStats)
+
+      assert.equal(result, 'bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf')
+    })
   })
 
   describe('#immutableCid', () => {

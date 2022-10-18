@@ -19,7 +19,7 @@ const mutableData = {
   nsfw: false,
   userData: '',
   jsonLd: {},
-  about: 'This NFT was created using the PSF Token Studio at https://nft-creator.fullstack.cash',
+  about: '01',
   category: 'text',
   tags: [
     'example',
