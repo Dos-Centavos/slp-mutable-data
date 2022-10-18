@@ -15,10 +15,10 @@ Here are different ways to consume this library in your app, depending on the en
 
 ```javascript
 // ESM import
-import { SlpMutableData } from 'slp-mutable-data/index.js'
+import { SlpMutableData } from 'slp-mutable-data'
 
 // CommonJS require
-const { SlpMutableData } = require('slp-mutable-data/index')
+const { SlpMutableData } = require('slp-mutable-data')
 ```
 
 ### Examples
