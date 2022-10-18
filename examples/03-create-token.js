@@ -10,16 +10,19 @@
 */
 
 // 1) Key pair for creating and holding the token.
-const walletWif = 'L13SHXh4yCheSV9ZaF9MQq6SPM7ZWCP5WhoxjG3YokyEP6poPUs1'
-// const walletAddr = 'bitcoincash:qqc3pqztxxcq7hr5g7f5us477rhxl96m65lp7cszfl'
-// mnemonic: sound cliff hand peace submit author weekend subject ugly spawn earn insect
+const walletWif = 'L1XkvKux3hB49W6ChqPuX1CPhkM9cSvAFZoGgZ7EZa4poaqPtQb9'
+// 'bitcoincash:qz3fhj6yf9t4fs7fl3pgvg890teyd2ks9uhc4hu6wc'
+// mnemonic: famous squeeze provide slice become august cigar symptom cream else start garage
 
-// 2) Key pair for controlling the mutable data.
-// const mdaWif = 'L1uQVoF9PQ42SiPUp4oYcg887CEKZG1VaShc73sEtkLwZycwmefB'
-const mda = 'bitcoincash:qpegq32ddlaj09grkkq7xsfyc5j8kfl3ygpj2zqmsv'
-// mnemonic: kit educate flight trim toilet uphold diamond six angle electric share elbow
+// 2) Key pair for controlling the mutable data address (MDA).
+// const mdaWif = 'KxP3S56Tcn7sEncgozp4kpGvnUK5Gy6dEtfjteAe8SiPdB7RTJoy'
+const mda = 'bitcoincash:qr9czk5ullqpcq250n0x2dy73vu3wedmmyjstg4km6'
+// mnemonic: husband cook purpose dream obscure legal exotic book quote bulk need cabbage
 
-const BchWallet = require('minimal-slp-wallet/index.js')
+// This CID is generated from 01-create-data.js. Replace it with your own CID.
+const immutableCid = 'bafybeiczbwscirag7didwheoq5ei6alxerbtbugdtafyysjqzo2z37uaw4'
+
+const BchWallet = require('minimal-slp-wallet')
 const { SlpMutableData } = require('../index')
 // const SlpMutableData = require('slp-mutable-data')
 
@@ -35,7 +38,7 @@ async function createToken () {
     const tokenData = {
       name: 'Mutable Test 01',
       ticker: 'MT01',
-      documentUrl: 'ipfs://bafybeidzfi3sictag4noy746gniyiwwcgio565xuzelmjfwxnga6qyiyai',
+      documentUrl: `ipfs://${immutableCid}`,
       decimals: 0,
       initialQty: 1,
       mintBatonVout: null
@@ -47,7 +50,7 @@ async function createToken () {
       mda
     )
 
-    console.log(`New token created with token ID: ${txid}`)
+    console.log(`\nNew token created with token ID: ${txid}`)
     console.log(`https://token.fullstack.cash/?tokenid=${txid}`)
   } catch (err) {
     console.error(err)

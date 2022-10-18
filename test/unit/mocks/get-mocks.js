@@ -198,6 +198,21 @@ const transactions02 = [
   }
 ]
 
+const transactions03 = [
+  {
+    height: 762681,
+    tx_hash: '67edcf3e45c64ce6829cd3e53484e08fe8a6b9f0b0bc0a202f0cd3123d9177a8'
+  },
+  {
+    height: 762681,
+    tx_hash: '7588959fbd2f1baf86a5bd27616a96e103bcd89d25affee46f1e8c67b96881a6'
+  },
+  {
+    height: 762678,
+    tx_hash: '54d4bfe9ef8dd7a0a7fe6091499ac9a80a63b4cf3657757665b1af8154477972'
+  }
+]
+
 const immutableData = {
   payloadCid: 'QmY3EaRaUcc5bNuqDfc7TaeNPThBGUefbqJeJVDjCqxqFZ',
   about: 'This is a placeholder'
@@ -391,6 +406,7 @@ module.exports = {
   txDataWithoutMDA02,
   transactions,
   transactions02,
+  transactions03,
   immutableData,
   mutableData,
   decodedOpReturn,
