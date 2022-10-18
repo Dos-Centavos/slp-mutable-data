@@ -24,10 +24,10 @@ const { SlpMutableData } = require('slp-mutable-data/index')
 ### Examples
 Examples are provided in the [examples directory](https://github.com/Dos-Centavos/slp-mutable-data/tree/master/examples):
 
-- [Create Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/create-data.js) by uploading a JSON object to Filecoin via [web3.storage](https://web3.storage).
-- [Create a Token](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/create-token.js) with both mutable and immutable data.
-- [Update Mutable Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/update-mutable-data.js).
-- [Get Token Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/get-mutable-data.js).
+1. [Create Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/01-create-data.js) by uploading a JSON object to Filecoin via [web3.storage](https://web3.storage).
+2. [Create a Token](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/create-token.js) with both mutable and immutable data.
+3. [Update Mutable Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/update-mutable-data.js).
+4. [Get Token Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/get-mutable-data.js).
 
 ## Sponsor
 

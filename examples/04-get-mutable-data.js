@@ -2,12 +2,14 @@
   An example for retrieving the mutable data associated with a token.
 */
 
-const BchWallet = require('minimal-slp-wallet/index')
+// Global npm libraries
+const BchWallet = require('minimal-slp-wallet')
 
+// Local libraries
 const { SlpMutableData } = require('../index')
 
 const tokenId =
-'c85042ab08a2099f27de880a30f9a42874202751d834c42717a20801a00aab0d'
+'4d9e114ad9d5e1df8fd3cf850c28e968a41bd31b639f807041596e882d6fa148'
 
 async function getMutableData () {
   try {
