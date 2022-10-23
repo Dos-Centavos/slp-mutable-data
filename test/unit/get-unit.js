@@ -296,6 +296,27 @@ describe('#get.js', () => {
 
       assert.equal(result, 'bafybeifn4wooos4ifozveyam6b3h6wbfc62wrbihry43rfex3emyzkjrrf')
     })
+
+    it('should return mutable cid from an ecash address', async () => {
+      // Mock external dependencies.
+      sandbox.stub(uut, 'decodeOpReturn')
+        .onFirstCall().resolves('{"mda":"ecash:qplnej5md740lkl6qt0qf0g2mkv7dwfscs0lfmdwks"}')
+        .onSecondCall().resolves('abc') // data to force an error while parsing the JSON. Increases code coverage.
+        .onThirdCall().resolves('{ "cid": "ipfs://bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4" }')
+        // .onCall(4).resolves('{"cid":"ipfs://bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4"}')
+      sandbox
+        .stub(uut.wallet, 'getTransactions')
+        .resolves(mockData.transactions02)
+      mockData.txData02[0].vin[0].address = 'ecash:qplnej5md740lkl6qt0qf0g2mkv7dwfscs0lfmdwks'
+      sandbox
+        .stub(uut.wallet, 'getTxData')
+        .resolves(mockData.txData02)
+
+      const tokenStats = mockData.tokenStats.tokenData
+      const result = await uut.mutableCid(tokenStats)
+
+      assert.equal(result, 'bafybeigotuony53ley3n63hqwyxiqruqn5uamskmci6f645putnc46jju4')
+    })
   })
 
   describe('#immutableCid', () => {
