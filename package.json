@@ -35,7 +35,7 @@
   "repository": "Dos-Centavos/slp-mutable-data",
   "dependencies": {
     "axios": "0.27.2",
-    "p2wdb": "2.2.9"
+    "p2wdb": "2.2.10"
   },
   "devDependencies": {
     "apidoc": "0.50.5",
