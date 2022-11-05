@@ -30,6 +30,18 @@ Examples are provided in the [examples directory](https://github.com/Dos-Centavo
 4. [Update Mutable Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/04-update-mutable-data.js).
 5. [Get Token Data](https://github.com/Dos-Centavos/slp-mutable-data/blob/master/examples/05-get-mutable-data.js).
 
+### Overriding Defaults
+This library has default IPFS gateways and servers that can be overridden, so that devs are not forced to depend on any one specific infrastructure. Here is an example of overridding all the servers this library depends on:
+
+```javascript
+this.slpMutableData = new SlpMutableData({
+  wallet,
+  ipfsGatewayUrl: 'p2wdb-gateway-678.fullstack.cash', // IPFS Gateway
+  serverURL: 'https://p2wdb.fullstack.cash', // P2WDB server (see p2wdb.com)
+  pinServer: 'https://p2wdb-pin.fullstack.cash' // P2WDB Pinner Cluser
+})
+```
+
 ## Sponsor
 
 Development and maintenance of this library is sponsored by [Launchpad IP](https://launchpadip.com). If you need protection for your intellectual property, contact Launchpad.
