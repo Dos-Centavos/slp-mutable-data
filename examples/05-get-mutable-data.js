@@ -9,7 +9,7 @@ const BchWallet = require('minimal-slp-wallet')
 const { SlpMutableData } = require('../index')
 
 const tokenId =
-'4d9e114ad9d5e1df8fd3cf850c28e968a41bd31b639f807041596e882d6fa148'
+'0de866f9fda1e667f20540a6c660a86b71cc57982b5be232459c44899c437ffc'
 
 async function getMutableData () {
   try {
