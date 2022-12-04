@@ -8,8 +8,8 @@ const BchWallet = require('minimal-slp-wallet')
 // Local libraries
 const { SlpMutableData } = require('../index')
 
-const tokenId =
-'0de866f9fda1e667f20540a6c660a86b71cc57982b5be232459c44899c437ffc'
+// const tokenId = '0de866f9fda1e667f20540a6c660a86b71cc57982b5be232459c44899c437ffc'
+const tokenId = '5c8cb997cce61426b7149a74a3997443ec7eb738c5c246d9cfe70185a6911476'
 
 async function getMutableData () {
   try {
