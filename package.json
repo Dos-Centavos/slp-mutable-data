@@ -35,7 +35,7 @@
   "repository": "Dos-Centavos/slp-mutable-data",
   "dependencies": {
     "axios": "0.27.2",
-    "p2wdb": "2.2.10"
+    "p2wdb": "2.4.1"
   },
   "devDependencies": {
     "apidoc": "0.50.5",
@@ -45,7 +45,7 @@
     "husky": "4.3.8",
     "lodash.clonedeep": "4.5.0",
     "minimal-ecash-wallet": "1.1.6",
-    "minimal-slp-wallet": "5.5.4",
+    "minimal-slp-wallet": "5.10.0",
     "mocha": "9.2.2",
     "nyc": "15.1.0",
     "semantic-release": "19.0.2",
