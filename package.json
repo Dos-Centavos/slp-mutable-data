@@ -70,7 +70,9 @@
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/slp-mutable-data.min.js"
+        "default": "./dist/slp-mutable-data.min.js",
+        "node": "./index.js",
+        "default": "./index.js"
       },
       "require": {
         "default": "./index.js"
