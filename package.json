@@ -71,7 +71,7 @@
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/slp-mutable-data.min.js",
+        "browser": "./dist/slp-mutable-data.min.js",
         "node": "./index.js",
         "default": "./index.js"
       },
