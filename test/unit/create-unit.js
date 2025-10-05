@@ -743,4 +743,121 @@ describe('#create.js', () => {
       }
     })
   })
+  describe('#buildMintTx', () => {
+    it('should build a mint TX', async () => {
+      try {
+        uut.wallet.utxos.utxoStore = mockData.mockUtxos02
+
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
+
+        const result = await uut.buildMintTx(groupId)
+
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.fail('unexpected result')
+      }
+    })
+    it('should build a mint TX for token type 129', async () => {
+      try {
+        uut.wallet.utxos.utxoStore = mockData.mockUtxos02
+
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61827'
+
+        const result = await uut.buildMintTx(groupId)
+
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.fail('unexpected result')
+      }
+    })
+
+    it('should build mint tx with destination address', async () => {
+      try {
+        uut.wallet.utxos.utxoStore = mockData.mockUtxos02
+
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
+        const destAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+
+        const result = await uut.buildMintTx(groupId, destAddr)
+
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
+
+    it('should throw error if No BCH UTXOs available', async () => {
+      try {
+        uut.wallet.utxos.utxoStore = mockData.mockUtxos02
+        uut.wallet.utxos.utxoStore.bchUtxos = []
+
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
+
+        await uut.buildMintTx(groupId)
+
+        assert.fail('Unexpected code path')
+      } catch (err) {
+        assert.include(err.message, 'No BCH UTXOs available to pay for transaction.')
+      }
+    })
+    it('should throw error if mint baton is not found', async () => {
+      try {
+        uut.wallet.utxos.utxoStore = mockData.mockUtxos02
+
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61823'
+
+        await uut.buildMintTx(groupId)
+
+        assert.fail('Unexpected code path')
+      } catch (err) {
+        assert.include(err.message, 'A minting baton for token ID')
+        assert.include(err.message, 'could not be found in the wallet.')
+      }
+    })
+
+    it('throw error if tokenId is not provided', async () => {
+      try {
+        await uut.buildMintTx()
+
+        assert.equal(true, false, 'unexpected result')
+      } catch (err) {
+        assert.include(err.message, 'tokenId must be a string')
+      }
+    })
+  })
+  describe('#mintToken', () => {
+    it('should mint  token', async () => {
+      try {
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61827'
+        const destAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+
+        sandbox
+          .stub(uut.wallet, 'broadcast').resolves('txid')
+        const result = await uut.mintToken(groupId, destAddr)
+
+        assert.isString(result)
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'unexpected result')
+      }
+    })
+
+    it('should handle errors', async () => {
+      try {
+        const groupId = 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61827'
+        const destAddr = 'bitcoincash:qznchwd2rd2vskd4leewdah4wcjgkv33eqss59vhv6'
+
+        sandbox
+          .stub(uut.wallet, 'broadcast').throws(new Error('Test Error'))
+        await uut.mintToken(groupId, destAddr)
+
+        assert.fail('Unepected code path')
+      } catch (err) {
+        assert.include(err.message, 'Test Error')
+      }
+    })
+  })
 })
