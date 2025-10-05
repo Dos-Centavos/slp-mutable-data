@@ -62,7 +62,27 @@ const mockUtxos02 = {
           qtyStr: '1'
         }
       ],
-      mintBatons: []
+      mintBatons: [
+        {
+          height: 715677,
+          tx_hash: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          tx_pos: 1,
+          value: 546,
+          txid: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          vout: 1,
+          isSlp: true,
+          type: 'baton',
+          qty: '1',
+          tokenId: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826',
+          address: 'bitcoincash:qqc3pqztxxcq7hr5g7f5us477rhxl96m65lp7cszfl',
+          ticker: 'MT01',
+          name: 'Mutable Test 01',
+          documentUri: 'https://FullStack.cash',
+          documentHash: '��\u001bu�Ȱ�Ρ��:�\u0013����K�q�V\u001c�\r+:���',
+          decimals: 0,
+          qtyStr: '1'
+        }
+      ]
     },
     nft: {
       tokens: [
@@ -93,7 +113,28 @@ const mockUtxos02 = {
           tokenId: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61826'
         }
       ],
-      mintBatons: []
+      mintBatons: [
+        {
+          height: 715677,
+          tx_hash: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61827',
+          tx_pos: 1,
+          value: 546,
+          txid: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61827',
+          vout: 1,
+          isSlp: true,
+          tokenType: 129,
+          type: 'baton',
+          qty: '1',
+          tokenId: 'db4fcd1937edb37e035c936a22ebe0fb6f879c1d89c21dd73326581b3af61827',
+          address: 'bitcoincash:qqc3pqztxxcq7hr5g7f5us477rhxl96m65lp7cszfl',
+          ticker: 'MT01',
+          name: 'Mutable Test 01',
+          documentUri: 'https://FullStack.cash',
+          documentHash: '��\u001bu�Ȱ�Ρ��:�\u0013����K�q�V\u001c�\r+:���',
+          decimals: 0,
+          qtyStr: '1'
+        }
+      ]
     }
   },
   nullUtxos: []
